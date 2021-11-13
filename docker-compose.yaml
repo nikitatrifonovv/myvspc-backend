@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+
+  news-service:
+    restart: always
+    image: 'myvspc-news-service-docker:latest'
+    build: news-service/
+    container_name: news-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - newsdb
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://newsdb:3306/news
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  schedule-service:
+    restart: always
+    image: 'myvspc-schedule-service-docker:latest'
+    build: schedule-service/
+    container_name: schedule-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - scheduledb
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://scheduledb:3306/schedule
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  newsdb:
+    image: 'mysql:latest'
+    container_name: news-service-db
+    ports:
+      - "8081:3306"
+    environment:
+      - MYSQL_DATABASE=news
+      - MYSQL_ROOT_PASSWORD=root
+
+  scheduledb:
+    image: 'mysql:latest'
+    container_name: schedule-service-db
+    ports:
+      - "8083:3306"
+    environment:
+      - MYSQL_DATABASE=schedule
+      - MYSQL_ROOT_PASSWORD=root
