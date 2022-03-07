@@ -1,0 +1,10 @@
+API-GATEWAY-PLAN
+
+news-service
+{host}/api/v1/news - корень новостного сервиса
+ - /get?[parameters] GET METHOD
+
+
+
+schedule-service
+{host}/api/v1/schedule - корень сервиса расписаний
