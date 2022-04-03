@@ -1,78 +1,41 @@
 package com.ntsoftware.myvspc.newsservice.entities.dao;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.UUID;
 
 @Entity
+@Data
 @Table(schema = "vspc_news_database", name = "news")
 public class NewsEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private long id;
+    @Setter(AccessLevel.NONE)
+    @Column(name = "news_id", columnDefinition = "VARCHAR(36)")
+    @GeneratedValue(generator = "uuid")
+    private UUID id;
 
-    @Column(name = "title", columnDefinition = "TEXT")
+    @Column(name = "news_title", columnDefinition = "TEXT")
     private String title;
 
-    @Column(name = "sub_title", columnDefinition = "TEXT")
-    private String sub_title;
+    @Column(name = "news_sub_title", columnDefinition = "TEXT")
+    private String subTitle;
 
-    @Column(name = "meta_data")
-    private long meta_data;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "news_created_at", insertable = false, updatable = false)
+    private Timestamp createdAt;
 
-    @Column(name = "image",columnDefinition = "TEXT")
-    private String image;
+    @Column(name = "news_creator")
+    private String creator;
 
-    public NewsEntity(String title, String sub_title, long meta_data, String image) {
-        this.title = title;
-        this.sub_title = sub_title;
-        this.meta_data = meta_data;
-        this.image = image;
-    }
+    @Column(name = "news_image_preview_id",columnDefinition = "VARCHAR(36)")
+    private UUID imagePreviewId;
 
-    public NewsEntity(String title, String sub_title, long meta_data) {
-        this.title = title;
-        this.sub_title = sub_title;
-        this.meta_data = meta_data;
-    }
+    @Column(name = "type")
+    private int type;
 
-    public NewsEntity() {
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getSub_title() {
-        return sub_title;
-    }
-
-    public long getMeta_data() {
-        return meta_data;
-    }
-
-    public void setMeta_data(long meta_data) {
-        this.meta_data = meta_data;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    @Override
-    public String toString() {
-        return "NewsEntity{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", sub_title='" + sub_title + '\'' +
-                ", meta_data=" + meta_data +
-                '}';
-    }
 }
