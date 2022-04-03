@@ -1,46 +1,51 @@
 package com.ntsoftware.myvspc.newsservice.services.impl;
 
-import com.ntsoftware.myvspc.newsservice.entities.dao.BlocksEntity;
-import com.ntsoftware.myvspc.newsservice.repositories.BlocksRepository;
+import com.ntsoftware.myvspc.newsservice.entities.dao.BlockEntity;
+import com.ntsoftware.myvspc.newsservice.repositories.BlockRepo;
 import com.ntsoftware.myvspc.newsservice.services.BlocksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class BlocksServiceImpl implements BlocksService {
 
+    BlockRepo repository;
+
     @Autowired
-    BlocksRepository blocksRepository;
-
-    @Override
-    public BlocksEntity addBlock(BlocksEntity block) {
-        return blocksRepository.save(block);
+    public BlocksServiceImpl(BlockRepo repository) {
+        this.repository = repository;
     }
 
     @Override
-    public List<BlocksEntity> addBlocks(List<BlocksEntity> blocks) {
-        return blocksRepository.saveAll(blocks);
+    public BlockEntity addBlock(BlockEntity block) {
+        return repository.save(block);
     }
 
     @Override
-    public List<BlocksEntity> getAllBlocks() {
-        return blocksRepository.findAll();
+    public List<BlockEntity> addBlocks(List<BlockEntity> blocks) {
+        return repository.saveAll(blocks);
     }
 
     @Override
-    public List<BlocksEntity> getAllBlocksByNewId(long id) {
-        return blocksRepository.findAllByNewsOrderByPosition(id);
+    public List<BlockEntity> getAllBlocks() {
+        return repository.findAll();
     }
 
     @Override
-    public void deleteBlockById(long id) {
-        blocksRepository.deleteById(id);
+    public List<BlockEntity> getAllBlocksByNewId(UUID newsId) {
+        return repository.findAllByNewsId(newsId);
     }
 
     @Override
-    public void deleteAllBlocksByNewsId(long id) {
-        blocksRepository.deleteAllByNews(id);
+    public void deleteBlockById(UUID id) {
+
+    }
+
+    @Override
+    public void deleteAllBlocksByNewsId(UUID newsId) {
+
     }
 }

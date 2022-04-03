@@ -1,13 +1,11 @@
 package com.ntsoftware.myvspc.newsservice.services;
 
-import com.ntsoftware.myvspc.newsservice.entities.dao.ImagesEntity;
+import com.ntsoftware.myvspc.newsservice.entities.dao.ImageEntity;
+
+import java.util.UUID;
 
 public interface ImageService {
-    void add(ImagesEntity image);
-
-    void getById(long id);
-
-    void deleteById(long id);
-
-    void deleteByName(String name);
+    ImageEntity add(ImageEntity image);
+    ImageEntity getById(UUID id);
+    void deleteById(UUID id);
 }
