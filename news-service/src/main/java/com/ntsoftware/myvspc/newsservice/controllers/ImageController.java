@@ -71,9 +71,6 @@ public class ImageController {
 
     @GetMapping(value = "test")
     public String test() {
-
-
-
         return ServletUriComponentsBuilder.newInstance()
                 .scheme(ServletUriComponentsBuilder.fromCurrentContextPath().build().getScheme())
                 .host("hostname")
