@@ -36,6 +36,6 @@ public class NewsEntity {
     private UUID imagePreviewId;
 
     @Column(name = "type")
-    private int type;
+    private long type;
 
 }

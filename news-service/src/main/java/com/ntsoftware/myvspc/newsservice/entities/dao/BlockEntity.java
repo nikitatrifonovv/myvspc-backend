@@ -23,7 +23,7 @@ public class BlockEntity {
     private UUID newsId;
 
     @Column(name = "block_type")
-    private int type;
+    private long type;
 
     @Column(name = "block_position")
     private int position;

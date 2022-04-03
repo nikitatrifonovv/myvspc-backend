@@ -2,16 +2,14 @@ package com.ntsoftware.myvspc.newsservice.entities.dao;
 
 import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 @Data
 @Table(schema = "vspc_news_database", name = "news_type")
-public class NewsTypes {
+public class NewsType {
 
     @Id
     @Setter(AccessLevel.NONE)
