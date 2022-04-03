@@ -8,8 +8,8 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(schema = "vspc_news_database", name = "news_type")
-public class NewsType {
+@Table(schema = "vspc_news_database", name = "block_type")
+public class BlockTypeEntity {
 
     @Id
     @Setter(AccessLevel.NONE)
