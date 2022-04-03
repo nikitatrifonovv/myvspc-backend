@@ -1,13 +1,14 @@
 package com.ntsoftware.myvspc.newsservice.entities.dao;
 
 import lombok.AccessLevel;
-import lombok.Getter;
+import lombok.Data;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
+@Data
 @Table(schema = "vspc_news_database", name = "image")
 public class ImageEntity {
 

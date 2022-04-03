@@ -14,7 +14,7 @@ public class AssembledNewsPreview {
     private String subTitle;
     private Timestamp date;
     private String creator;
-    private int type;
+    private long type;
     private String typeName;
     private UUID imageId;
 }

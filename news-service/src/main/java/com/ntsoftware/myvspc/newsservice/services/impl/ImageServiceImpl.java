@@ -24,6 +24,14 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
+    public ImageEntity add(String name, byte[] bytes) {
+        ImageEntity image = new ImageEntity();
+        image.setName(name);
+        image.setImage(bytes);
+        return repository.save(image);
+    }
+
+    @Override
     public ImageEntity getById(UUID id) {
         return repository.getById(id);
     }
