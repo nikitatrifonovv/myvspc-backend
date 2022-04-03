@@ -44,7 +44,7 @@ public class AssembleServiceImpl implements AssembleService {
 
     @Override
     public List<BlockEntity> assembleAllBlocksByNews(UUID newsId) {
-        return blocksService.getAllBlocks();
+        return blocksService.getAllBlocksByNewId(newsId);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class AssembleServiceImpl implements AssembleService {
                             .newsId(n.getId())
                             .title(n.getTitle())
                             .subTitle(n.getSubTitle())
-                            .date(n.getCreatedAt())
+                            .createdAt(n.getCreatedAt())
                             .creator(n.getCreator())
                             .type(n.getType())
                             .typeName(typeRepository.getById(n.getType()).getName())
@@ -64,7 +64,7 @@ public class AssembleServiceImpl implements AssembleService {
                             .build();
             assembledNewsPreviews.add(assembledNewsPreview);
         }
-        assembledNewsPreviews.sort((o1, o2) -> o2.getDate().compareTo(o1.getDate()));
+        assembledNewsPreviews.sort((o1, o2) -> o2.getCreatedAt().compareTo(o1.getCreatedAt()));
 
         return assembledNewsPreviews;
     }

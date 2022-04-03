@@ -19,25 +19,17 @@ import java.util.UUID;
 @RestController
 @RequestMapping(value = "/news", produces = MediaType.APPLICATION_JSON_VALUE)
 public class NewsController {
-    Logger logger = LoggerFactory.getLogger(NewsController.class);
-    Gson serializer = new Gson();
-
-    NewsService newsService;
-    BlocksService blocksService;
 
     AssembleService assembleService;
 
     @Autowired
-    public NewsController(NewsService newsService, BlocksService blocksService) {
-        this.newsService = newsService;
-        this.blocksService = blocksService;
+    public NewsController(AssembleService assembleService) {
+        this.assembleService = assembleService;
     }
 
-    @PostMapping(value = "save", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/save", produces = MediaType.APPLICATION_JSON_VALUE)
     public void save(@RequestBody AssembledNewsRequest body) {
         assembleService.disassembleAndSave(body);
-        logger.info("Added new news: " + serializer.toJson(body));
-
     }
 
     @GetMapping(value = "/blocks", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -45,7 +37,7 @@ public class NewsController {
         return assembleService.assembleAllBlocksByNews(newsId);
     }
 
-    @GetMapping(value = "all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<AssembledNewsPreview> getAllSimpleNews() {
         return assembleService.assembleAllNewsPreview();
     }

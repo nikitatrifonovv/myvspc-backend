@@ -12,7 +12,7 @@ public class AssembledNewsPreview {
     private UUID newsId;
     private String title;
     private String subTitle;
-    private Timestamp date;
+    private Timestamp createdAt;
     private String creator;
     private long type;
     private String typeName;

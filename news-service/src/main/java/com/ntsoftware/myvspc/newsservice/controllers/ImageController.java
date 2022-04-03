@@ -1,6 +1,7 @@
 package com.ntsoftware.myvspc.newsservice.controllers;
 
 import com.ntsoftware.myvspc.newsservice.services.ImageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartRequest;
@@ -8,12 +9,16 @@ import org.springframework.web.multipart.MultipartRequest;
 import java.io.IOException;
 import java.util.UUID;
 
-//TODO Идетификация картинок по ID а не по ссылкам!!! Сделать!
 @RestController
 @RequestMapping(value = "/image", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ImageController {
 
     ImageService imageService;
+
+    @Autowired
+    public ImageController(ImageService imageService) {
+        this.imageService = imageService;
+    }
 
     @PostMapping(value = "save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public void save(MultipartRequest multipartFile) throws IOException {
