@@ -1,5 +1,4 @@
 
-#TODO Добавлять типы поумолчанию при создании БД
 use vspc_news_database;
 
 create table if not exists block_type
@@ -50,5 +49,8 @@ create table if not exists news_type
     type_name varchar(255) null
 )
     engine = MyISAM;
+
+insert into news_type (type_id, type_name) VALUES (1,''), (2,'news'), (3,'notification'), (4,'warning');
+insert into block_type (type_id, type_name) values (1,'text'), (2, 'image');
 
 
