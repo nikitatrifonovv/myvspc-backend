@@ -1,60 +1,54 @@
 
+#TODO Добавлять типы поумолчанию при создании БД
 use vspc_news_database;
 
-create table if not exists block_types
+create table if not exists block_type
 (
-    id   bigint auto_increment
+    type_id   bigint auto_increment
         primary key,
-    name varchar(255) null
+    type_name varchar(255) null
 )
     engine = MyISAM;
 
 create table if not exists blocks
 (
-    id       bigint auto_increment
+    block_id       varchar(36) default (uuid()) not null
         primary key,
-    data     longtext null,
-    news     bigint   null,
-    position int      null,
-    type     bigint   null
+    block_data     longtext    null,
+    news_id        varchar(36) null,
+    block_position int         null,
+    block_type     bigint      null
 )
     engine = MyISAM;
 
-create table if not exists images
+create table if not exists image
 (
-    id    bigint auto_increment
+    image_id     varchar(36) default (uuid()) not null
         primary key,
-    image longblob     null,
-    name  varchar(255) null
-)
-    engine = MyISAM;
-
-create table if not exists meta_data
-(
-    id      bigint auto_increment
-        primary key,
-    creator varchar(255) null,
-    date    datetime     null,
-    type    bigint       null
-)
-    engine = MyISAM;
-
-create table if not exists meta_data_types
-(
-    id   bigint auto_increment
-        primary key,
-    name varchar(255) null
+    image_binary longblob                     null,
+    image_name   varchar(255)                 null
 )
     engine = MyISAM;
 
 create table if not exists news
 (
-    id        bigint auto_increment
-        primary key,
-    image     text   null,
-    meta_data bigint null,
-    sub_title text   null,
-    title     text   null
+    news_id               varchar(36)  default (uuid())
+        not null primary key,
+    news_created_at       datetime default (now()) null,
+    news_creator          varchar(255)             null,
+    news_image_preview_id varchar(36)              null,
+    news_sub_title        text                     null,
+    news_title            text                     null,
+    type                  bigint                   null
 )
     engine = MyISAM;
+
+create table if not exists news_type
+(
+    type_id   bigint auto_increment
+        primary key,
+    type_name varchar(255) null
+)
+    engine = MyISAM;
+
 
