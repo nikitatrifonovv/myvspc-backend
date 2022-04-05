@@ -50,4 +50,14 @@ create table if not exists lesson_type
     )
     engine = MyISAM;
 
+INSERT INTO call_schedule (lesson_number, break, end, start) VALUES (1, '5', '9:15', '8:30');
+INSERT INTO call_schedule (lesson_number, break, end, start) VALUES (2, '5', '10:05', '9:20');
+INSERT INTO call_schedule (lesson_number, break, end, start) VALUES (3, '5', '10:55', '10:10');
+INSERT INTO call_schedule (lesson_number, break, end, start) VALUES (4, '10', '11:45', '11:00');
+INSERT INTO call_schedule (lesson_number, break, end, start) VALUES (5, '15', '12:40', '11:55');
+INSERT INTO call_schedule (lesson_number, break, end, start) VALUES (6, '5', '13:40', '12:55');
+INSERT INTO call_schedule (lesson_number, break, end, start) VALUES (7, '5', '14:30', '13:45');
+INSERT INTO call_schedule (lesson_number, break, end, start) VALUES (8, '10', '15:20', '14:35');
+INSERT INTO call_schedule (lesson_number, break, end, start) VALUES (9, '5', '16:15', '15:30');
+INSERT INTO call_schedule (lesson_number, break, end, start) VALUES (10, '5', '17:05', '16:20');
 
