@@ -21,12 +21,12 @@ public class ImageController {
     }
 
     @PostMapping(value = "save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void save(MultipartRequest multipartFile) throws IOException {
+    public UUID save(MultipartRequest multipartFile) throws IOException {
         var image = multipartFile.getFiles("image").get(0);
         var name = image.getOriginalFilename();
         var bytes = image.getBytes();
         assert name != null;
-        imageService.add(name, bytes);
+        return imageService.add(name, bytes).getId();
     }
 
     @GetMapping(value = "/{imageId:.+}", produces = MediaType.IMAGE_JPEG_VALUE)

@@ -27,17 +27,22 @@ public class NewsController {
         this.assembleService = assembleService;
     }
 
-    @PostMapping(value = "/save", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public void save(@RequestBody AssembledNewsRequest body) {
         assembleService.disassembleAndSave(body);
     }
 
-    @GetMapping(value = "/blocks", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<BlockEntity> getAllBlocksByNewsId(@RequestParam(name = "news_id") UUID newsId) {
+    @GetMapping(value = "/{newsid}/blocks", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<BlockEntity> getAllBlocksByNewsId(@PathVariable(name = "newsid") UUID newsId) {
         return assembleService.assembleAllBlocksByNews(newsId);
     }
 
-    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{newsid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public AssembledNewsPreview getNewsPreviewById(@PathVariable(name = "newsid") UUID newsId) {
+        return assembleService.assembleNewsPreviewById(newsId);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<AssembledNewsPreview> getAllSimpleNews() {
         return assembleService.assembleAllNewsPreview();
     }

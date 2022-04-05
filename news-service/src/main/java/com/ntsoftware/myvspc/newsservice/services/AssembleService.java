@@ -14,4 +14,6 @@ public interface AssembleService {
     List<BlockEntity> assembleAllBlocksByNews(UUID newsId);
 
     List<AssembledNewsPreview> assembleAllNewsPreview();
+
+    AssembledNewsPreview assembleNewsPreviewById(UUID newsId);
 }

@@ -2,6 +2,7 @@ package com.ntsoftware.myvspc.newsservice.services.impl;
 
 import com.ntsoftware.myvspc.newsservice.entities.AssembledNewsPreview;
 import com.ntsoftware.myvspc.newsservice.entities.dao.BlockEntity;
+import com.ntsoftware.myvspc.newsservice.entities.dao.NewsEntity;
 import com.ntsoftware.myvspc.newsservice.repositories.NewsTypeRepo;
 import com.ntsoftware.myvspc.newsservice.requests.AssembledNewsRequest;
 import com.ntsoftware.myvspc.newsservice.services.AssembleService;
@@ -67,5 +68,26 @@ public class AssembleServiceImpl implements AssembleService {
         assembledNewsPreviews.sort((o1, o2) -> o2.getCreatedAt().compareTo(o1.getCreatedAt()));
 
         return assembledNewsPreviews;
+    }
+
+    @Override
+    public AssembledNewsPreview assembleNewsPreviewById(UUID newsId) {
+        var news = newsService.getNewsById(newsId);
+
+        if (news.isEmpty()) {
+            return AssembledNewsPreview.builder().build();
+        }
+
+        NewsEntity n = news.get();
+        return AssembledNewsPreview.builder()
+                .newsId(n.getId())
+                .title(n.getTitle())
+                .subTitle(n.getSubTitle())
+                .createdAt(n.getCreatedAt())
+                .creator(n.getCreator())
+                .type(n.getType())
+                .typeName(typeRepository.getById(n.getType()).getName())
+                .imageId(n.getImagePreviewId())
+                .build();
     }
 }
