@@ -6,9 +6,19 @@ services:
     restart: always
     image: 'myvspc-configuration-service-docker:latest'
     build: configuration-service/
-    ports:
-      - "8888:8888"
 
+  cloud-discovery:
+    restart: always
+    image: 'myvspc-cloud-discovery-docker:latest'
+    build: cloud-discovery/
+    depends_on:
+      - configuration-service
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_APPLICATION_NAME=cloud-discovery
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://configuration-service:8888
+      - SPRING_CLOUD_CONFIG_FAIL-FAST=true
 
   news-service:
     restart: always
@@ -19,6 +29,7 @@ services:
     depends_on:
       - newsdb
       - configuration-service
+      - cloud-discovery
     environment:
       - SPRING_APPLICATION_NAME=news-service
       - SPRING_DATASOURCE_URL=jdbc:mysql://newsdb:3306/vspc_news_database
@@ -37,6 +48,7 @@ services:
     depends_on:
       - scheduledb
       - configuration-service
+      - cloud-discovery
     environment:
       - SPRING_APPLICATION_NAME=schedule-service
       - SPRING_DATASOURCE_URL=jdbc:mysql://scheduledb:3306/vspc_schedule_db
