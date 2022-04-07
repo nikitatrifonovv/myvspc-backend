@@ -27,6 +27,11 @@ public class NewsController {
         this.assembleService = assembleService;
     }
 
+    @GetMapping("/health")
+    public String checkHealth(){
+        return "News service is working.";
+    }
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public void save(@RequestBody AssembledNewsRequest body) {
         assembleService.disassembleAndSave(body);

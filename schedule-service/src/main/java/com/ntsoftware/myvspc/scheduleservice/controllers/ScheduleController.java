@@ -17,8 +17,17 @@ import java.util.List;
 @RequestMapping("/schedule")
 public class ScheduleController {
 
-    @Autowired
     ScheduleService scheduleService;
+
+    @Autowired
+    public ScheduleController(ScheduleService scheduleService) {
+        this.scheduleService = scheduleService;
+    }
+
+    @GetMapping("health")
+    public String checkHealth(){
+        return "Schedule service is working.";
+    }
 
     @GetMapping("week")
     ScheduleWeek getWeek(@RequestParam(name = "group") Integer group,
