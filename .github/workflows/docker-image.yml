@@ -13,69 +13,101 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    -
-      name: Set up QEMU
-      uses: docker/setup-qemu-action@v1
-    -
-      name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
-      
-    - 
-      name: Login to Rregistry
-      uses: docker/login-action@v1
-      with:
-        registry: nikitatr991.fvds.ru
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-        run: docker-compose build
-    - 
-      name: Docker meta
-      id: meta
-      uses: docker/metadata-action@v3
-      with:
-        images: name/app
-        tags: |
-          type=ref,event=branch
-          type=ref,event=pr
-          type=semver,pattern={{version}}
-          type=semver,pattern={{major}}.{{minor}}
-          
-    -
-      name: Build and push news-service
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        file: news-service/Dockerfile
-        push: true
-        tags: nikitatr991.fvds.ru/app:latest
+#    -
+#      name: Set up QEMU
+#      uses: docker/setup-qemu-action@v1
+#    -
+#      name: Set up Docker Buildx
+#      uses: docker/setup-buildx-action@v1
+#
+#    -
+#      name: Login to Rregistry
+#      uses: docker/login-action@v1
+#      with:
+#        registry: nikitatr991.fvds.ru
+#        username: ${{ secrets.DOCKER_USERNAME }}
+#        password: ${{ secrets.DOCKER_PASSWORD }}
+#        run: docker-compose build
+#    -
+#      name: Docker meta
+#      id: meta
+#      uses: docker/metadata-action@v3
+#      with:
+#        images: name/app
+#        tags: |
+#          type=ref,event=branch
+#          type=ref,event=pr
+#          type=semver,pattern={{version}}
+#          type=semver,pattern={{major}}.{{minor}}
+
+    - uses: actions/checkout@v2
+    - name: Login to registry
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
     -
-      name: Build and push schedule-service
-      uses: docker/build-push-action@v2
-      with:
-        context: ../schedule-service
-        push: true
-        tags: nikitatr991.fvds.ru/app:latest
+      name: Build configuration-service
+      run: |
+        docker build ./configuration-service -t nikitatr/myvspc-configuration-service-docker:latest
 
     -
-      name: Build and push configuration-service
-      uses: docker/build-push-action@v2
-      with:
-        context: ../configuration-service
-        push: true
-        tags: nikitatr991.fvds.ru/app:latest
+      name: Build cloud-discovery
+      run: |
+      docker build ./cloud-discovery -t nikitatr/myvspc-cloud-discovery-docker:latest
 
     -
-      name: Build and push cloud-discovery
-      uses: docker/build-push-action@v2
-      with:
-        context: ../cloud-discovery
-        push: true
-        tags: nikitatr991.fvds.ru/app:latest
+      name: Build api-gateway
+      run: | 
+      docker build ./api-gateway -t nikitatr/myvspc-api-gateway-docker:latest
+
     -
-      name: Build and push api-gateway
-      uses: docker/build-push-action@v2
-      with:
-        context: ../api-gateway
-        push: true
-        tags: nikitatr991.fvds.ru/app:latest
+      name: Build news-service
+      run: |
+      docker build ./news-service -t nikitatr/myvspc-news-service-docker:latest
+    -
+      name: Build schedule-service
+      run: |
+        docker build ./schedule-service -t nikitatr/myvspc-schedule-service-docker:latest
+
+    - name: docker push
+      run: |
+        docker push nikitatr/myvspc-configuration-service-docker:latest
+        docker push nikitatr/myvspc-cloud-discovery-docker:latest
+        docker push nikitatr/myvspc-api-gateway-docker:latest
+        docker push nikitatr/myvspc-news-service-docker:latest
+        docker push nikitatr/myvspc-schedule-service-docker:latest
+
+
+#    -
+#      name: Build and push schedule-service
+#      uses: docker/build-push-action@v2
+#      with:
+#        context: ./schedule-service
+#        push: true
+#        tags: user/app:latest
+#
+#    -
+#      name: Build and push configuration-service
+#      uses: docker/build-push-action@v2
+#      with:
+#        context: ./configuration-service
+#        push: true
+#        tags: user/app:latest
+#
+#    -
+#      name: Build and push cloud-discovery
+#      uses: docker/build-push-action@v2
+#      with:
+#        context: ./cloud-discovery
+#        push: true
+#        tags: user/app:latest
+#    -
+#      name: Build and push api-gateway
+#      uses: docker/build-push-action@v2
+#      with:
+#        context: ./api-gateway
+#        push: true
+#        tags: user/app:latest
