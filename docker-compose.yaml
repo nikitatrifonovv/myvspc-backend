@@ -2,50 +2,82 @@ version: '3'
 
 services:
 
+  configuration-service:
+    restart: always
+    image: 'myvspc-configuration-service-docker:latest'
+    build: configuration-service/
+
+  cloud-discovery:
+    restart: always
+    image: 'myvspc-cloud-discovery-docker:latest'
+    build: cloud-discovery/
+    depends_on:
+      - configuration-service
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_APPLICATION_NAME=cloud-discovery
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://configuration-service:8888
+      - SPRING_CLOUD_CONFIG_FAIL-FAST=true
+
+  api-gateway:
+    restart: always
+    image: "myvspc-api-gateway-docker:latest"
+    build: api-gateway
+    depends_on:
+      - configuration-service
+      - cloud-discovery
+      - news-service
+      - schedule-service
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_APPLICATION_NAME=api-gateway
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://configuration-service:8888
+      - SPRING_CLOUD_CONFIG_FAIL-FAST=true
+
   news-service:
     restart: always
     image: 'myvspc-news-service-docker:latest'
     build: news-service/
-    container_name: news-service
-    ports:
-      - "8080:8080"
     depends_on:
       - newsdb
+      - configuration-service
+      - cloud-discovery
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://newsdb:3306/news
+      - SPRING_APPLICATION_NAME=news-service
+      - SPRING_DATASOURCE_URL=jdbc:mysql://newsdb:3306/vspc_news_database
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://configuration-service:8888
+      - SPRING_CLOUD_CONFIG_FAIL-FAST=true
 
   schedule-service:
     restart: always
     image: 'myvspc-schedule-service-docker:latest'
     build: schedule-service/
-    container_name: schedule-service
-    ports:
-      - "8082:8082"
     depends_on:
       - scheduledb
+      - configuration-service
+      - cloud-discovery
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://scheduledb:3306/schedule
+      - SPRING_APPLICATION_NAME=schedule-service
+      - SPRING_DATASOURCE_URL=jdbc:mysql://scheduledb:3306/vspc_schedule_db
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://configuration-service:8888
+      - SPRING_CLOUD_CONFIG_FAIL-FAST=true
 
   newsdb:
     image: 'mysql:latest'
-    container_name: news-service-db
-    ports:
-      - "8081:3306"
     environment:
-      - MYSQL_DATABASE=news
+      - MYSQL_DATABASE=vspc_news_database
       - MYSQL_ROOT_PASSWORD=root
 
   scheduledb:
     image: 'mysql:latest'
-    container_name: schedule-service-db
-    ports:
-      - "8083:3306"
     environment:
-      - MYSQL_DATABASE=schedule
+      - MYSQL_DATABASE=vspc_schedule_db
       - MYSQL_ROOT_PASSWORD=root

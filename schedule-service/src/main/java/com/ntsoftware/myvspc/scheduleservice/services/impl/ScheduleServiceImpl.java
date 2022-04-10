@@ -3,6 +3,7 @@ package com.ntsoftware.myvspc.scheduleservice.services.impl;
 import com.ntsoftware.myvspc.scheduleservice.entities.ScheduleDay;
 import com.ntsoftware.myvspc.scheduleservice.entities.ScheduleLesson;
 import com.ntsoftware.myvspc.scheduleservice.entities.ScheduleWeek;
+import com.ntsoftware.myvspc.scheduleservice.entities.dao.CallsEntity;
 import com.ntsoftware.myvspc.scheduleservice.repositories.CallsRepository;
 import com.ntsoftware.myvspc.scheduleservice.repositories.DayOfWeekRepository;
 import com.ntsoftware.myvspc.scheduleservice.repositories.LessonRepository;
@@ -10,6 +11,8 @@ import com.ntsoftware.myvspc.scheduleservice.repositories.LessonTypeRepository;
 import com.ntsoftware.myvspc.scheduleservice.services.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
@@ -64,6 +67,11 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ScheduleDay getSchDay(int group_id, int sub_group, int semester, int day) {
         return getScheduleWeek(group_id,sub_group,semester).getDayByTag(day);
+    }
+
+    @Override
+    public List<CallsEntity> getCallsString() {
+        return callsRepository.findAll();
     }
 
 
