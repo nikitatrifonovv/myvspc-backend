@@ -27,6 +27,9 @@ jobs:
       run: |
         docker login nikitatr991.fvds.ru -u $DOCKER_USER -p $DOCKER_PASSWORD
 
+    - name: Grant execute permission for mvn
+      run: chmod +x mvn
+
     -
       name: Build configuration-service
       run: |
