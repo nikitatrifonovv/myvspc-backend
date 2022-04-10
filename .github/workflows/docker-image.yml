@@ -20,7 +20,6 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
         docker login nikitatr991.fvds.ru -u $DOCKER_USER -p $DOCKER_PASSWORD
-
     -
       name: Build configuration-service
       run: |
@@ -28,27 +27,22 @@ jobs:
         mvn package -DskipTests
         cd..
         docker build ./configuration-service -t nikitatr/myvspc-configuration-service-docker:latest
-
     -
       name: Build cloud-discovery
       run: |
       docker build ./cloud-discovery -t nikitatr/myvspc-cloud-discovery-docker:latest
-
     -
       name: Build api-gateway
       run: |
       docker build ./api-gateway -t nikitatr/myvspc-api-gateway-docker:latest
-
     -
       name: Build news-service
       run: |
       docker build ./news-service -t nikitatr/myvspc-news-service-docker:latest
-
     -
       name: Build schedule-service
       run: |
       docker build ./schedule-service -t nikitatr/myvspc-schedule-service-docker:latest
-
     - name: docker push
       run: |
         docker push nikitatr/myvspc-configuration-service-docker:latest
