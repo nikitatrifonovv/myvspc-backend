@@ -22,16 +22,11 @@ jobs:
       run: |
         docker login nikitatr991.fvds.ru -u $DOCKER_USER -p $DOCKER_PASSWORD
 
-    - name: Grant execute permission for mvn
-      run: chmod +x mvn
-
     -
       name: Build configuration-service
       run: |
         cd configuration-service
-        mvn package -DskipTests
-        cd..
-        docker build ./configuration-service -t nikitatr/myvspc-configuration-service-docker:latest
+        mvn spring-boot:build-image
 
     -
       name: Build cloud-discovery
