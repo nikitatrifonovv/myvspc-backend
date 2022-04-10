@@ -19,7 +19,7 @@ jobs:
         DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        docker login nikitatr991.fvds.ru -u $DOCKER_USER -p $DOCKER_PASSWORD
 
     -
       name: Build configuration-service
