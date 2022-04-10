@@ -15,11 +15,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v2
-      with:
-        java-version: '17'
-
     - name: Login to registry
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
