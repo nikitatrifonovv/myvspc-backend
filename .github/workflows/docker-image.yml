@@ -32,7 +32,7 @@ jobs:
       run: |
         cd configuration-service
         mvn package -DskipTests
-        docker build . -t nikitatr/myvspc-cloud-discovery-docker:latest
+        docker build . -t nikitatr991.fvds.ru/myvspc-configuration-service-docker:latest
 
 #    -
 #      name: Build cloud-discovery
@@ -68,7 +68,7 @@ jobs:
 
     - name: docker push
       run: |
-        docker push nikitatr/myvspc-configuration-service-docker:latest
+        docker push nikitatr991.fvds.ru/myvspc-configuration-service-docker:latest
 #        docker push nikitatr/myvspc-cloud-discovery-docker:latest
 #        docker push nikitatr/myvspc-api-gateway-docker:latest
 #        docker push nikitatr/myvspc-news-service-docker:latest
