@@ -15,6 +15,8 @@
     <description>news-service</description>
     <properties>
         <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <spring-cloud.version>2021.0.1</spring-cloud.version>
     </properties>
 
