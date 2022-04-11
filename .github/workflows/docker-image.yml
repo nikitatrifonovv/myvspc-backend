@@ -33,25 +33,39 @@ jobs:
       run: |
         cd configuration-service
         mvn package -DskipTests
+        cd ..
+        docker build ./cloud-discovery -t nikitatr/myvspc-cloud-discovery-docker:latest
 
     -
       name: Build cloud-discovery
       run: |
+        cd cloud-discovery
+        mvn package -DskipTests
+        cd ..
         docker build ./cloud-discovery -t nikitatr/myvspc-cloud-discovery-docker:latest
 
     -
       name: Build api-gateway
       run: |
+        cd api-gateway
+        mvn package -DskipTests
+        cd ..
         docker build ./api-gateway -t nikitatr/myvspc-api-gateway-docker:latest
 
     -
       name: Build news-service
       run: |
+        cd news-service
+        mvn package -DskipTests
+        cd ..
         docker build ./news-service -t nikitatr/myvspc-news-service-docker:latest
 
     -
       name: Build schedule-service
       run: |
+        cd schedule-service
+        mvn package -DskipTests
+        cd ..
         docker build ./schedule-service -t nikitatr/myvspc-schedule-service-docker:latest
 
     - name: docker push
