@@ -23,10 +23,16 @@ jobs:
         docker login nikitatr991.fvds.ru -u $DOCKER_USER -p $DOCKER_PASSWORD
 
     -
+      name: Install jdk
+      run: |
+        sudo apt update
+        sudo apt install openjdk-17-jdk
+
+    -
       name: Build configuration-service
       run: |
         cd configuration-service
-        mvn spring-boot:build-image
+        mvn package -DskipTests
 
     -
       name: Build cloud-discovery
