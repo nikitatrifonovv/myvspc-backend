@@ -60,7 +60,7 @@ jobs:
       run: |
         cd schedule-service
         mvn package -DskipTests
-        docker build . -service -t nikitatr991.fvds.ru/myvspc-schedule-service-docker:latest
+        docker build . -t nikitatr991.fvds.ru/myvspc-schedule-service-docker:latest
 
     - name: docker push
       run: |
